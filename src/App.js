@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// React
+import React, { Component } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+// CSS File
+import "./App.css";
+// Component
+import Navbar from "./components/Navbar";
+// Containers
+import Weather from "./containers/Weather";
+import Favorites from "./containers/Favorites";
+// Redux
+import { connect } from "react-redux";
+import { fetchCityWeather } from "./actions/weatherActions";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  componentWillMount() {
+    this.props.fetchCityWeather();
+  }
+
+  render() {
+    const MyWeatherPage = () => {
+      return <Weather />;
+    };
+
+    const MyFavoritesPage = () => {
+      return <Favorites />;
+    };
+
+    return (
+      <BrowserRouter>
+        <Navbar />
+        <Route exact path="/" render={MyWeatherPage} />
+        <Route path="/favorites" render={MyFavoritesPage} />
+      </BrowserRouter>
+    );
+  }
 }
 
-export default App;
+export default connect(
+  null,
+  { fetchCityWeather }
+)(App);
