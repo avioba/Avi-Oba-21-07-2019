@@ -44,7 +44,7 @@ export const deleteFavorite = cityKey => dispatch => {
 // then fetching 5-day daily forecast and get current weather
 export const goToFavorite = (cityKey, city) => dispatch => {
   fetch(
-    `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${city}&language=en-us`
+    `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${city}&language=en-us`
   )
     .then(res => res.json())
     .then(data => dispatch({ type: "GET_WEATHER_FETCH", payload: data[0] }))
@@ -56,7 +56,7 @@ export const goToFavorite = (cityKey, city) => dispatch => {
     );
 
   fetch(
-    `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=${API_KEY}&language=en-us&details=true&metric=true`
+    `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${cityKey}?apikey=${API_KEY}&language=en-us&details=true&metric=true`
   )
     .then(res => res.json())
     .then(data =>
@@ -73,7 +73,7 @@ export const goToFavorite = (cityKey, city) => dispatch => {
     )
     .then(
       fetch(
-        `http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=${API_KEY}&language=en-us&details=false`
+        `https://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=${API_KEY}&language=en-us&details=false`
       )
         .then(res => res.json())
         .then(data =>
