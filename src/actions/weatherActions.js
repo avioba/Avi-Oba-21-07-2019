@@ -6,7 +6,7 @@ import { API_KEY } from "./constans";
 // gets the data and dispatch it to weatherReducer
 const fiveDaysAndCurrentWeatherFetchs = (dispatch, getState) => {
   fetch(
-    `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${
+    `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${
       getState().weather.cityKey
     }?apikey=${API_KEY}&language=en-us&details=true&metric=true`
   )
@@ -25,7 +25,7 @@ const fiveDaysAndCurrentWeatherFetchs = (dispatch, getState) => {
     )
     .then(
       fetch(
-        `http://dataservice.accuweather.com/currentconditions/v1/${
+        `https://dataservice.accuweather.com/currentconditions/v1/${
           getState().weather.cityKey
         }?apikey=${API_KEY}&language=en-us&details=false`
       )
@@ -57,7 +57,7 @@ export const fetchCityWeather = () => (dispatch, getState) => {
   });
   setTimeout(() => {
     fetch(
-      `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${API_KEY}&q=${
+      `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${API_KEY}&q=${
         getState().weather.latitude
       },${
         getState().weather.longitude
@@ -88,7 +88,7 @@ export const fetchCityWeather = () => (dispatch, getState) => {
 // then fetching 5-day daily forecast and get current weather
 export const getWeatherFetch = city => (dispatch, getState) => {
   fetch(
-    `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${city}&language=en-us`
+    `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${city}&language=en-us`
   )
     .then(res => res.json())
     .then(data => dispatch({ type: "GET_WEATHER_FETCH", payload: data[0] }))
