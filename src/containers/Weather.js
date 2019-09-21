@@ -98,7 +98,7 @@ const Home = props => {
     <div>
       {showError && <PopUp hideError={hideError} error={err} />}
 
-      {isDataLoaded ? (
+      {isDataLoaded && showError === false ? (
         <div className="container">
           <Form getWeather={getWeather} />
 
