@@ -4,10 +4,10 @@ import { API_KEY } from "./constans";
 // takes cityKey from store,
 // fetching 5-day daily forecast and get current weather,
 // gets the data and dispatch it to weatherReducer
-const fiveDaysAndCurrentWeatherFetchs = (dispatch, getState) => {
+const fiveDaysAndCurrentWeatherFetchs = (dispatch, cityKey) => {
   fetch(
     `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${
-      getState().weather.cityKey
+      cityKey
     }?apikey=${API_KEY}&language=en-us&details=true&metric=true`
   )
     .then(res => res.json())
@@ -26,7 +26,7 @@ const fiveDaysAndCurrentWeatherFetchs = (dispatch, getState) => {
     .then(
       fetch(
         `https://dataservice.accuweather.com/currentconditions/v1/${
-          getState().weather.cityKey
+          cityKey
         }?apikey=${API_KEY}&language=en-us&details=false`
       )
         .then(res => res.json())
@@ -62,12 +62,13 @@ export const fetchCityWeather = () => (dispatch, getState) => {
       }&language=en-us&details=true&toplevel=false`
     )
       .then(res => res.json())
-      .then(data =>
+      .then(data => {
+        fiveDaysAndCurrentWeatherFetchs(dispatch, data.Key);
         dispatch({
           type: "GEO_POSITION_SEARCH",
           payload: data
         })
-      )
+      })
       .catch(err =>
         dispatch({
           type: "GEO_POSITION_SEARCH_ERROR",
@@ -75,10 +76,6 @@ export const fetchCityWeather = () => (dispatch, getState) => {
         })
       );
   });
-
-  setTimeout(() => {
-    fiveDaysAndCurrentWeatherFetchs(dispatch, getState);
-  }, 2000);
 };
 
 // takes city from the input,
@@ -89,17 +86,16 @@ export const getWeatherFetch = city => (dispatch, getState) => {
     `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${API_KEY}&q=${city}&language=en-us`
   )
     .then(res => res.json())
-    .then(data => dispatch({ type: "GET_WEATHER_FETCH", payload: data[0] }))
+    .then(data => {
+      fiveDaysAndCurrentWeatherFetchs(dispatch, data[0].Key);
+      dispatch({ type: "GET_WEATHER_FETCH", payload: data[0] })
+    })
     .catch(err =>
       dispatch({
         type: "GET_WEATHER_FETCH_ERROR",
         payload: err.message
       })
     );
-
-  setTimeout(() => {
-    fiveDaysAndCurrentWeatherFetchs(dispatch, getState);
-  }, 1000);
 };
 
 // takes celsius from store and dispatch it as action,payload
