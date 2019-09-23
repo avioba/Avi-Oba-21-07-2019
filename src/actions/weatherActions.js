@@ -54,8 +54,6 @@ export const fetchCityWeather = () => (dispatch, getState) => {
       type: "GET_GEOLOCATION",
       payload: position.coords
     });
-  });
-  setTimeout(() => {
     fetch(
       `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${API_KEY}&q=${
         getState().weather.latitude
@@ -76,7 +74,7 @@ export const fetchCityWeather = () => (dispatch, getState) => {
           payload: err.message
         })
       );
-  }, 1000);
+  });
 
   setTimeout(() => {
     fiveDaysAndCurrentWeatherFetchs(dispatch, getState);
