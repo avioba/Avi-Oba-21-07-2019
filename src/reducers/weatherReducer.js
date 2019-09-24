@@ -98,7 +98,8 @@ const weatherReducer = (state = initialState, action) => {
       return {
         ...state,
         err: null,
-        showError: action.payload
+        showError: action.payload,
+        isDataLoaded: true
       };
     default:
       return state;
