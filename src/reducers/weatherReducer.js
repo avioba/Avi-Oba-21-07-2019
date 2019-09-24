@@ -69,7 +69,6 @@ const weatherReducer = (state = initialState, action) => {
       return {
         ...state,
         err: action.payload + " city weather",
-        isDataLoaded: false,
         showError: true
       };
     case "GET_WEATHER_FETCH":
@@ -98,8 +97,7 @@ const weatherReducer = (state = initialState, action) => {
       return {
         ...state,
         err: null,
-        showError: action.payload,
-        isDataLoaded: true
+        showError: action.payload
       };
     default:
       return state;
